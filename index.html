@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Will You Go On A Date With Me? 💖</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial Rounded MT Bold', 'Helvetica Rounded', Arial, sans-serif;
+        }
+
+        body {
+            width: 100%;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #ffe5e5, #ffcaca, #ffb7b7);
+            overflow: hidden;
+            position: relative;
+            animation: bgAnimation 10s infinite alternate;
+        }
+
+        @keyframes bgAnimation {
+            0% {
+                background: linear-gradient(135deg, #ffe5e5, #ffcaca, #ffb7b7);
+            }
+            100% {
+                background: linear-gradient(135deg, #fad0c4, #ff9a9e, #ffc3a0);
+            }
+        }
+
+        .hearts-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .heart {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: linear-gradient(45deg, #ff9a9e, #fad0c4);
+            transform: rotate(45deg);
+            opacity: 0.7;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .heart:before, .heart:after {
+            content: '';
+            width: 20px;
+            height: 20px;
+            background: inherit;
+            border-radius: 50%;
+            position: absolute;
+        }
+
+        .heart:before {
+            top: -10px;
+            left: 0;
+        }
+
+        .heart:after {
+            top: 0;
+            left: -10px;
+        }
+
+        @keyframes float {
+            0% {
+                transform: rotate(45deg) translateY(0) rotate(0deg);
+            }
+            50% {
+                transform: rotate(45deg) translateY(-20px) rotate(10deg);
+            }
+            100% {
+                transform: rotate(45deg) translateY(0) rotate(0deg);
+            }
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            align-items: center;
+            gap: 25px;
+            max-width: 500px;
+            margin: 20px;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            position: relative;
+            z-index: 2;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+
+        .gif-container {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            border: 5px solid #ff7eb3;
+            transition: transform 0.3s ease;
+        }
+
+        .gif-container:hover {
+            transform: scale(1.05);
+        }
+
+        .gif-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        h1 {
+            color: #ff6b8b;
+            font-size: 32px;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.03);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        p {
+            color: #777;
+            font-size: 18px;
+            line-height: 1.5;
+        }
+
+        .btn {
+            display: flex;
+            gap: 25px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .btn a {
+            text-decoration: none;
+            color: white;
+            background: linear-gradient(to right, #ff6b8b, #ff8e9e);
+            padding: 15px 30px;
+            border-radius: 50px;
+            box-shadow: 0 5px 15px rgba(255, 107, 139, 0.4);
+            transition: all 0.3s ease;
+            font-weight: bold;
+            min-width: 120px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn a:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to right, #ff8e9e, #ff6b8b);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: -1;
+        }
+
+        .btn a:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 107, 139, 0.6);
+        }
+
+        .btn a:hover:before {
+            opacity: 1;
+        }
+
+        .btn a:active {
+            transform: translateY(1px);
+        }
+
+        #move-random {
+            cursor: pointer;
+            transition: all 0.1s ease;
+        }
+
+        .romantic-message {
+            font-style: italic;
+            color: #ff6b8b;
+            margin-top: 10px;
+            opacity: 0;
+            animation: fadeIn 1s forwards;
+            animation-delay: 0.5s;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background-color: #ff6b8b;
+            opacity: 0;
+            z-index: 3;
+            animation: confetti-fall 5s linear forwards;
+        }
+
+        @keyframes confetti-fall {
+            0% {
+                transform: translateY(-100px) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        @media (max-width: 500px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            .btn {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .btn a {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="hearts-container" id="hearts"></div>
+    
+    <div class="container" id="main-container">
+        <!-- Content will be dynamically updated by JavaScript -->
+    </div>
+
+    <script>
+  function createHearts() {
+    const heartsContainer = document.getElementById('hearts');
+    const heartCount = 25;
+    for (let i = 0; i < heartCount; i++) {
+      const heart = document.createElement('div');
+      heart.classList.add('heart');
+      heart.style.left = Math.random() * 100 + 'vw';
+      heart.style.top = Math.random() * 100 + 'vh';
+      const size = Math.random() * 15 + 10;
+      heart.style.width = size + 'px';
+      heart.style.height = size + 'px';
+      heart.style.animationDelay = Math.random() * 5 + 's';
+      heartsContainer.appendChild(heart);
+    }
+  }
+
+  function createConfetti() {
+    const confettiCount = 100;
+    const colors = ['#ff6b8b', '#ff8e9e', '#ff9a9e', '#fad0c4', '#a6c0fe'];
+    for (let i = 0; i < confettiCount; i++) {
+      const confetti = document.createElement('div');
+      confetti.classList.add('confetti');
+      confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+      confetti.style.left = Math.random() * 100 + 'vw';
+      const size = Math.random() * 10 + 5;
+      confetti.style.width = size + 'px';
+      confetti.style.height = size + 'px';
+      confetti.style.animationDelay = Math.random() * 2 + 's';
+      confetti.style.animationDuration = Math.random() * 3 + 3 + 's';
+      document.body.appendChild(confetti);
+      setTimeout(() => { confetti.remove(); }, 5000);
+    }
+  }
+
+  function moveRandomEl(elm) {
+    elm.style.position = "absolute";
+    elm.style.top = Math.floor(Math.random() * 80 + 5) + "%";
+    elm.style.left = Math.floor(Math.random() * 80 + 5) + "%";
+  }
+
+  const pages = {
+    main: {
+      gif: "1cat.gif",
+      title: "Would you like to go on a date with me Ma'am? 💌",
+      message: "",
+      buttons: [
+        { text: "Yes", target: "yes" },
+        { text: "No", target: "no1" }
+      ]
+    },
+    no1: {
+      gif: "2cat.gif",
+      title: "Would you like to go on a date with me Ma'am? 💌",
+      message: "Oh, come on… don't break my heart 🥺",
+      buttons: [
+        { text: "Yes", target: "yes" },
+        { text: "No", target: "no2" }
+      ]
+    },
+    no2: {
+      gif: "3cat.gif",
+      title: "Would you like to go on a date with me Ma'am? 💌",
+      message: "Pretty please? I promise it'll be fun 🌸",
+      buttons: [
+        { text: "Yes", target: "yes" },
+        { text: "No", target: "no3" }
+      ]
+    },
+    no3: {
+      gif: "4cat.gif",
+      title: "Would you like to go on a date with me Ma'am? 💌",
+      message: "Think again! This could be the cutest date ever.",
+      buttons: [
+        { text: "Yes", target: "yes" },
+        // this one runs away and should NOT navigate
+        { text: "No", target: "main", random: true }
+      ]
+    },
+    yes: {
+      gif: "5cat.gif",
+      title: "YAY! 🥳 I knew you'd say yes — See you soon ❤️",
+      message: "You are such a cutieee 💗",
+    }
+  };
+
+  function renderPage(pageId) {
+    const page = pages[pageId];
+    const container = document.getElementById('main-container');
+    container.innerHTML = ''; // Clear previous content
+
+    const gifContainer = document.createElement('div');
+    gifContainer.className = 'gif-container';
+    const gifImg = document.createElement('img');
+    gifImg.className = 'gif-img';
+    gifImg.src = page.gif;
+    gifImg.alt = 'Romantic GIF';
+    gifContainer.appendChild(gifImg);
+    container.appendChild(gifContainer);
+
+    const title = document.createElement('h1');
+    title.textContent = page.title;
+    container.appendChild(title);
+
+    if (page.message) {
+      const message = document.createElement('p');
+      message.className = 'romantic-message';
+      message.textContent = page.message;
+      container.appendChild(message);
+    }
+
+    if (page.buttons.length > 0) {
+      const btnContainer = document.createElement('div');
+      btnContainer.className = 'btn';
+
+      page.buttons.forEach(btn => {
+        const link = document.createElement('a');
+        link.textContent = btn.text;
+        link.href = '#';
+
+        if (btn.random) {
+          // RUNAWAY BUTTON: only move, never navigate
+          link.id = 'move-random';
+
+          const moveButton = el => moveRandomEl(el);
+
+          ['mouseenter', 'click', 'touchstart'].forEach(evt => {
+            link.addEventListener(
+              evt,
+              function (e) {
+                e.preventDefault();
+                // ensure no other listeners on this element run
+                e.stopImmediatePropagation();
+                moveButton(e.currentTarget);
+              },
+              { passive: false }
+            );
+          });
+
+          // NOTE: we intentionally DO NOT add the generic click handler for this one
+        } else {
+          // normal buttons navigate
+          link.addEventListener('click', function (e) {
+            e.preventDefault();
+            renderPage(btn.target);
+            if (btn.target === 'yes') {
+              createConfetti();
+            }
+          });
+        }
+
+        btnContainer.appendChild(link);
+      });
+
+      container.appendChild(btnContainer);
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    createHearts();
+    renderPage('main');
+  });
+</script>
+
+</body>
+</html>
